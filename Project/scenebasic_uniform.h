@@ -16,6 +16,7 @@ class SceneBasic_Uniform : public Scene
 {
 private:
     GLSLProgram prog;
+    GLSLProgram prog2;
     SkyBox sky;
     std::unique_ptr<ObjMesh> sword;
 

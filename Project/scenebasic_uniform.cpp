@@ -18,17 +18,15 @@ using glm::vec3;
 using glm::vec4;
 using glm::mat4;
 
-//SceneBasic_Uniform::SceneBasic_Uniform() : plane(10.0f, 10.0f, 100, 100)
-SceneBasic_Uniform::SceneBasic_Uniform() : sky(10000.0f) {
+//SceneBasic_Uniform::SceneBasic_Uniform() : : sky(10000.0f)
+SceneBasic_Uniform::SceneBasic_Uniform() : sky(10.0f) {
     
     sword = ObjMesh::load("media/Dragonslayer.obj", true, true);
-    //sword = ObjMesh::load("media/coin.obj", true, true);
-    //so many objects don't work...why?
 }
 
 void SceneBasic_Uniform::initScene()
 {
-    angle = 0.0;
+    angle = glm::radians(90.0f);
 
     compile();
 
@@ -51,19 +49,17 @@ void SceneBasic_Uniform::initScene()
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeTex);
     
-    /*GLuint metal = Texture::loadTexture("media/texture/SwordOfTheDefeat_Blade_metalness.png");
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, metal);
-    GLuint roughness = Texture::loadTexture("media/texture/SwordOfTheDefeat_Blade_rough.png");
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, roughness);*/
-    
 
     prog.setUniform("Light.Position", vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     prog.setUniform("Light.La", vec3(0.4f, 0.4f, 0.4f));
     prog.setUniform("Light.Ld", vec3(1.0f, 1.0f, 1.0f));
     prog.setUniform("Light.Ls", vec3(0.1f, 0.1f, 0.1f));
+
+    prog.setUniform("Material.Ka", 0.4f, 0.4f, 0.4f);
+    prog.setUniform("Material.Kd", 0.8f, 0.8f, 0.8f);
+    prog.setUniform("Material.Ks", 0.2f, 0.2f, 0.2f);
+    prog.setUniform("Material.shininess", 0.2f);
 
 }
 
@@ -74,6 +70,11 @@ void SceneBasic_Uniform::compile()
 		prog.compileShader("shader/basic_uniform.frag");
 		prog.link();
 		prog.use();
+
+        prog2.compileShader("shader/skybox.vert");
+        prog2.compileShader("shader/skybox.frag");
+        prog2.link();
+
 	} catch (GLSLProgramException &e) {
 		cerr << e.what() << endl;
 		exit(EXIT_FAILURE);
@@ -99,37 +100,19 @@ void SceneBasic_Uniform::update( float t )
 void SceneBasic_Uniform::render()
 {
     glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
-    //model = glm::translate(view, glm::vec3(-1.0f, 0.0f, -1.0f));
-    //setMatrices();
-    //cube.render();
-    //model = glm::translate(model, glm::vec3(1.0f, 0.0f, 1.0f));
+  
+    prog.use();
     model = glm::mat4(1.0f);
     model = glm::scale(model, glm::vec3(0.003f, 0.003f, 0.003f));
-
-    prog.setUniform("Material.Ka", 0.4f, 0.4f, 0.4f);
-    prog.setUniform("Material.Kd", 0.8f, 0.8f, 0.8f);
-    prog.setUniform("Material.Ks", 0.2f, 0.2f, 0.2f);
-    prog.setUniform("Material.shininess", 0.2f);
-
+    model = glm::rotate(model, glm::radians(180.0f), vec3(1.0f, 0.0f, 0.0f));
     setMatrices();
     sword->render();
 
-    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+    prog2.use();
+    model = glm::mat4(1.0f);
     setMatrices();
     sky.render();
 
-
-    /*
-    model = glm::mat4(1.0f);
-
-    prog.setUniform("Material.Ka", 0.2f, 0.8f, 0.2f);
-    prog.setUniform("Material.Kd", 0.8f, 0.8f, 0.8f);
-    prog.setUniform("Material.Ks", 0.2f, 0.2f, 0.2f);
-    prog.setUniform("Material.shininess", 10.0f);
-
-    setMatrices();
-    plane.render();
-    */
 }
 
 void SceneBasic_Uniform::setMatrices() {
@@ -138,6 +121,11 @@ void SceneBasic_Uniform::setMatrices() {
     prog.setUniform("NormalMatrix", glm::mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
     prog.setUniform("MVP", projection * mv);
     prog.setUniform("ProjectionMatrix", projection);
+
+    prog2.setUniform("ModelViewMatrix", mv);
+    prog2.setUniform("NormalMatrix", glm::mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
+    prog2.setUniform("MVP", projection * mv);
+    prog2.setUniform("ProjectionMatrix", projection);
 }
 
 void SceneBasic_Uniform::resize(int w, int h)

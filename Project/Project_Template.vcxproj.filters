@@ -63,14 +63,11 @@
     <ClCompile Include="helper\stb\stb_image.cpp">
       <Filter>helper\stb</Filter>
     </ClCompile>
-    <ClCompile Include="..\Project_Template\Project_Template\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Documents\Dependencies\lib\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="helper\skybox.cpp">
       <Filter>helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Documents\Dependencies\lib\glad.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +75,12 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="shader\basic_uniform.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\skybox.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\skybox.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

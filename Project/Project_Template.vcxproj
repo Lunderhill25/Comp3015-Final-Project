@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Dependencies\include;E:\Uni_Stuff\Comp3015\Dependencies\include;C:\Users\lunderhill1\Documents\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Dependencies\lib;E:\Uni_Stuff\Comp3015\Dependencies\lib;C:\Users\lunderhill1\Documents\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Uni_Stuff\Comp3015\Dependencies\include;C:\Users\lunderhill1\Documents\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Uni_Stuff\Comp3015\Dependencies\lib;C:\Users\lunderhill1\Documents\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -145,8 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Documents\Dependencies\lib\glad.c" />
-    <ClCompile Include="..\Project_Template\Project_Template\glad.c" />
+    <ClCompile Include="..\..\..\Documents\Dependencies\lib\glad.c" />
     <ClCompile Include="helper\cube.cpp" />
     <ClCompile Include="helper\glslprogram.cpp" />
     <ClCompile Include="helper\glutils.cpp" />
@@ -164,6 +163,8 @@
   <ItemGroup>
     <None Include="shader\basic_uniform.frag" />
     <None Include="shader\basic_uniform.vert" />
+    <None Include="shader\skybox.frag" />
+    <None Include="shader\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="helper\aabb.h" />
