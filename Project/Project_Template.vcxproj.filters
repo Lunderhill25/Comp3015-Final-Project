@@ -66,7 +66,7 @@
     <ClCompile Include="helper\skybox.cpp">
       <Filter>helper</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Documents\Dependencies\lib\glad.c">
+    <ClCompile Include="..\..\..\Comp3015\Dependencies\lib\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

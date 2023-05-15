@@ -16,6 +16,7 @@ uniform struct LightInfo{
     vec3 La;
     vec3 Ld;
     vec3 Ls;
+    vec3 L;
 } Light;
 
 uniform mat4 ModelViewMatrix;

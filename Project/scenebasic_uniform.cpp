@@ -49,8 +49,8 @@ void SceneBasic_Uniform::initScene()
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeTex);
     
-
-    prog.setUniform("Light.Position", vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    prog.setUniform("Light.L", glm::vec3(0.25f));
+    prog.setUniform("Light.Position", vec4(0.0f, 0.0f, 0.5f, 1.0f));
 
     prog.setUniform("Light.La", vec3(0.4f, 0.4f, 0.4f));
     prog.setUniform("Light.Ld", vec3(1.0f, 1.0f, 1.0f));
@@ -60,6 +60,9 @@ void SceneBasic_Uniform::initScene()
     prog.setUniform("Material.Kd", 0.8f, 0.8f, 0.8f);
     prog.setUniform("Material.Ks", 0.2f, 0.2f, 0.2f);
     prog.setUniform("Material.shininess", 0.2f);
+
+    prog.setUniform("Material.Rough", 0.9f);
+    prog.setUniform("Material.Metal", 0);
 
 }
 
