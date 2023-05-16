@@ -19,9 +19,12 @@ using glm::vec4;
 using glm::mat4;
 
 //SceneBasic_Uniform::SceneBasic_Uniform() : : sky(10000.0f)
-SceneBasic_Uniform::SceneBasic_Uniform() : sky(10.0f) {
+SceneBasic_Uniform::SceneBasic_Uniform() : sky(10.0f), particleLifetime(5.5f), nParticles(8000),
+                                            emitterPos(1,0,0),emitterDir(-1,2,0)
+{
     
     sword = ObjMesh::load("media/Dragonslayer.obj", true, true);
+
 }
 
 void SceneBasic_Uniform::initScene()
@@ -30,6 +33,8 @@ void SceneBasic_Uniform::initScene()
 
     compile();
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
     //model = glm::rotate(model, glm::radians(60.0f), vec3(1.0f, 0.0f, 0.0f));
 
@@ -45,12 +50,12 @@ void SceneBasic_Uniform::initScene()
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, colour);
 
-    GLuint cubeTex = Texture::loadHdrCubeMap("media/texture/cube/pisa-hdr/pisa");
+    GLuint cubeTex = Texture::loadHdrCubeMap("media/texture/cube/sky/sky");
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeTex);
     
-    prog.setUniform("Light.L", glm::vec3(0.25f));
-    prog.setUniform("Light.Position", vec4(0.0f, 0.0f, 0.5f, 1.0f));
+    prog.setUniform("Light.L", glm::vec3(1.25f));
+    prog.setUniform("Light.Position", vec4(0.0f, 0.0f, 1.5f, 1.0f));
 
     prog.setUniform("Light.La", vec3(0.4f, 0.4f, 0.4f));
     prog.setUniform("Light.Ld", vec3(1.0f, 1.0f, 1.0f));
@@ -64,6 +69,14 @@ void SceneBasic_Uniform::initScene()
     prog.setUniform("Material.Rough", 0.9f);
     prog.setUniform("Material.Metal", 0);
 
+    bloodprog.use();
+
+    bloodprog.setUniform("ParticleTex", 0);
+    bloodprog.setUniform("ParticleLifetime", particleLifetime);
+    bloodprog.setUniform("ParticleSize", 0.05f);
+    bloodprog.setUniform("Gravity", vec3(0.0f,-0.2f,0.0f));
+    bloodprog.setUniform("EmitterPos", emitterPos);
+
 }
 
 void SceneBasic_Uniform::compile()
@@ -74,9 +87,13 @@ void SceneBasic_Uniform::compile()
 		prog.link();
 		prog.use();
 
-        prog2.compileShader("shader/skybox.vert");
-        prog2.compileShader("shader/skybox.frag");
-        prog2.link();
+        skyprog.compileShader("shader/skybox.vert");
+        skyprog.compileShader("shader/skybox.frag");
+        skyprog.link();
+
+        bloodprog.compileShader("shader/blood.vert");
+        bloodprog.compileShader("shader/blood.frag");
+        bloodprog.link();
 
 	} catch (GLSLProgramException &e) {
 		cerr << e.what() << endl;
@@ -111,7 +128,7 @@ void SceneBasic_Uniform::render()
     setMatrices();
     sword->render();
 
-    prog2.use();
+    skyprog.use();
     model = glm::mat4(1.0f);
     setMatrices();
     sky.render();
@@ -125,10 +142,10 @@ void SceneBasic_Uniform::setMatrices() {
     prog.setUniform("MVP", projection * mv);
     prog.setUniform("ProjectionMatrix", projection);
 
-    prog2.setUniform("ModelViewMatrix", mv);
-    prog2.setUniform("NormalMatrix", glm::mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
-    prog2.setUniform("MVP", projection * mv);
-    prog2.setUniform("ProjectionMatrix", projection);
+    skyprog.setUniform("ModelViewMatrix", mv);
+    skyprog.setUniform("NormalMatrix", glm::mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
+    skyprog.setUniform("MVP", projection * mv);
+    skyprog.setUniform("ProjectionMatrix", projection);
 }
 
 void SceneBasic_Uniform::resize(int w, int h)

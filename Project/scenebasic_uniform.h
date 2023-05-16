@@ -15,13 +15,17 @@
 class SceneBasic_Uniform : public Scene
 {
 private:
-    GLSLProgram prog;
-    GLSLProgram prog2;
+    GLSLProgram prog, skyprog, bloodprog;
     SkyBox sky;
     std::unique_ptr<ObjMesh> sword;
+    std::unique_ptr<ObjMesh> pedestal;
+    GLuint initVel, startTime, particles, nParticles;
+
+    glm::vec3 emitterPos, emitterDir;
 
     float angle;
     float tPrev;
+    float particleLifetime;
 
     glm::mat4 rotationMatrix;
 

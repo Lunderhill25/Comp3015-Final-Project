@@ -8,8 +8,8 @@ in vec2 TexCoord;
 in vec3 LightDir;
 in vec3 ViewDir;
 
-layout (binding = 0) uniform sampler2D colour;
-layout (binding = 1) uniform sampler2D normalMap;
+layout (binding = 0) uniform sampler2D normalMap;
+layout (binding = 1) uniform sampler2D colour;
 
 layout (location = 0) out vec4 FragColor;
 
