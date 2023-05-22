@@ -146,6 +146,7 @@ void SceneBasic_Uniform::setMatrices() {
     skyprog.setUniform("NormalMatrix", glm::mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
     skyprog.setUniform("MVP", projection * mv);
     skyprog.setUniform("ProjectionMatrix", projection);
+
 }
 
 void SceneBasic_Uniform::resize(int w, int h)
