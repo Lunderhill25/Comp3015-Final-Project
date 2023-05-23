@@ -38,7 +38,8 @@ This section details the aspects of each file that plays the most significance t
 2. Then the FragColor is calculated using the two input values.
 
 ## Predicted Mark
+The predicted mark after looking at the values in the rubric would lead me to believe a minimum mark of 45 is appropriate for the work done. 
 ![Comp3015 CW2 Rubric](https://github.com/Lunderhill25/Comp3015-Final-Project/assets/72555440/6be01415-a8a9-42f2-b8a7-777e340f3f61)
 
-
 ## Youtube Link
+https://youtu.be/UinhmUkJhPw 
